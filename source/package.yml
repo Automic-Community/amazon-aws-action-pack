@@ -1,0 +1,10 @@
+name: PCK.AUTOMIC_AMAZON
+source: ae
+binaries: 
+- object: RESOURCES/PCK.AUTOMIC_AMAZON.PRV.CUSTOM_TYPES
+  timestamp: disabled
+  resources: 
+  - name: WORKFLOW#AWS
+    type: TEXT
+    path: ara/types/workflow/AWS.xml
+    version: 1.0.0

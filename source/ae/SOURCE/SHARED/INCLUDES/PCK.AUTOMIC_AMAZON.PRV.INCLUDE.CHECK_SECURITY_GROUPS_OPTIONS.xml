@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?><uc-export clientvers="11.0.0">
+<JOBI name="PCK.AUTOMIC_AMAZON.PRV.INCLUDE.CHECK_SECURITY_GROUPS_OPTIONS">
+<HEADER state="1">
+<Title/>
+<ArchiveKey1/>
+<ArchiveKey2/>
+<OH_SubType/>
+</HEADER>
+<SCRIPT mode="1" state="1">
+<MSCRI><![CDATA[!Define output variable
+:SET &UC4RB_SG_OPTIONS# = ""
+:IF &UC4RB_AWS_SECURITY_GROUP# <> ""
+!  create parameter string based upon input
+:  DEFINE &UC4RB_SG_ARRAY#, string, 20
+:  FILL &UC4RB_SG_ARRAY#[] = STR_SPLIT(&UC4RB_AWS_SECURITY_GROUP#,",")
+:  SET &UC4RB_SG_INDEX# = 1
+:  SET &LEN# = LENGTH(&UC4RB_SG_ARRAY#[])
+:  WHILE &UC4RB_SG_INDEX# LE &LEN#
+:    SET &UC4RB_SG_OPTION# = STR_TRIM(&UC4RB_SG_ARRAY#[&UC4RB_SG_INDEX#])
+:    IF &UC4RB_SG_OPTION# <> ""
+:      SET &UC4RB_SG_OPTIONS# = STR_CAT(&UC4RB_SG_OPTIONS#, '-g &UC4RB_SG_OPTION# ')
+:    ENDIF
+:    SET &UC4RB_SG_INDEX# = &UC4RB_SG_INDEX# + 1
+:  ENDWHILE
+:ENDIF]]></MSCRI>
+</SCRIPT>
+<DOCU_Docu state="1" type="text">
+<DOC><![CDATA[== INPUT == 
+&UC4RB_AWS_SECURITY_GROUP#
+String with Security Groups seperated by ,
+
+== OUTPUT ==
+&UC4RB_SG_OPTIONS#
+String containing the Security Groups options (-g sg-xxxx -g sg-xxxxx)
+]]></DOC>
+</DOCU_Docu>
+</JOBI>
+</uc-export>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?><uc-export clientvers="11.0.0">
+<JOBI name="PCK.AUTOMIC_AMAZON.PRV.INCLUDE.CHECK_ENVIRONMENT@WINDOWS">
+<HEADER state="1">
+<Title/>
+<ArchiveKey1/>
+<ArchiveKey2/>
+<OH_SubType/>
+</HEADER>
+<SCRIPT mode="1" state="1">
+<MSCRI><![CDATA[if (!(Test-Path env:EC2_HOME)) {
+  Write-Host EC2_HOME is not defined. This environment variable needed for EC2 API tools e.g C:\utils\ec2-api-tools-1.7.5.1.
+  exit 1
+}
+
+if (!(Test-Path env:JAVA_HOME)) {
+  Write-Host JAVA_HOME is not defined.  This environment variable needed for EC2 API tools.
+  exit 1
+}]]></MSCRI>
+</SCRIPT>
+<DOCU_Docu state="1" type="text">
+<DOC/>
+</DOCU_Docu>
+</JOBI>
+</uc-export>

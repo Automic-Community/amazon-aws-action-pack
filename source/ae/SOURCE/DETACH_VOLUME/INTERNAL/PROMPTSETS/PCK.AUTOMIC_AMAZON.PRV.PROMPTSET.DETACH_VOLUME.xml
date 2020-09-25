@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?><uc-export clientvers="11.0.0">
+<PRPT name="PCK.AUTOMIC_AMAZON.PRV.PROMPTSET.DETACH_VOLUME">
+<HEADER state="1">
+<Title/>
+<ArchiveKey1/>
+<ArchiveKey2/>
+<OH_SubType>STATIC</OH_SubType>
+</HEADER>
+<PROMPTDESIGNER state="1">
+<DESIGNER/>
+</PROMPTDESIGNER>
+<PROMPTSETXUI state="1">
+<XUIEDITOR><![CDATA[<dialog height="636" icon="PRPT" id="PRPTS" left="0" top="0" width="586"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Parameters"><properties><entry name="text">Parameters</entry><entry name="modifiable">0</entry></properties><text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AWS_VOLUME_IDs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Volume ID" tooltip="The ID of the Amazon EBS volume. The volume and instance must be within the same Availability Zone." upper="0" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="text">Volume ID</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_VOLUME_IDs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">1</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">The ID of the Amazon EBS volume. The volume and instance must be within the same Availability Zone.</entry>
+        <entry name="modifiable">1</entry>
+      <entry name="initvalue"/>
+            <entry name="customfield"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties>
+    </text><text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AWS_INSTANCE_IDs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Instance ID" tooltip="A name for the new image. No quotation marks allowed. The volume and instance must be within the same Availability Zone." upper="0" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="text">Instance ID</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_INSTANCE_IDs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">1</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">A name for the new image. No quotation marks allowed. The volume and instance must be within the same Availability Zone.</entry>
+        <entry name="modifiable">1</entry>
+      <entry name="initvalue"/>
+            <entry name="customfield"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties>
+    </text><text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AWS_VOLUME_DEVICEs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Device" tooltip="The device name to expose to the instance." upper="0" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="text">Device</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_VOLUME_DEVICEs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">1</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">The device name to expose to the instance.</entry>
+        <entry name="modifiable">1</entry>
+      <entry name="initvalue"/>
+            <entry name="customfield"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties>
+    </text><dynradiogroup alt="1" enabled="1" fill="b" focus="" id="UC4RB_AWS_FORCE_DETACHs.00" nl="1" text="Force" tooltip="Forces detachment if the previous detachment attempt did not occur cleanly (logging into an instance, unmounting the volume, and detaching normally). This option can lead to data loss or a corrupted file system. Use this option only as a last resort to detach a volume from a failed instance.  The instance will not have an opportunity to flush file system caches or file system metadata. If you use this option, you must perform file system check and repair procedures." required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO</entry>
+        <entry name="text">Force</entry>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_FORCE_DETACHs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip">Forces detachment if the previous detachment attempt did not occur cleanly (logging into an instance, unmounting the volume, and detaching normally). This option can lead to data loss or a corrupted file system. Use this option only as a last resort to detach a volume from a failed instance. 
+The instance will not have an opportunity to flush file system caches or file system metadata. If you use this option, you must perform file system check and repair procedures.</entry>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties>
+    </dynradiogroup><dynradiogroup alt="1" enabled="1" fill="b" focus="" id="UC4RB_AWS_IS_DETACHEDs.00" nl="1" text="Wait for detached" tooltip="Wait till the volume state change to attached." required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO</entry>
+        <entry name="text">Wait for detached</entry>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_IS_DETACHEDs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip">Wait till the volume state change to attached.</entry>
+        <entry name="modifiable">1</entry>
+      <entry name="initvalue"/>
+            <entry name="customfield"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/></properties>
+    </dynradiogroup><text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AWS_RETRY_INTERVALs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Retry Interval" tooltip="The time in seconds between the state reads if wait for detached is set to yes." upper="0" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="text">Retry Interval</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_RETRY_INTERVALs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">The time in seconds between the state reads if wait for detached is set to yes.</entry>
+        <entry name="modifiable">1</entry>
+      <entry name="initvalue"/>
+            <entry name="customfield"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties>
+    </text><text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AWS_MAX_RETRIESs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Max Retries" tooltip="The maximal number of state reads if wait for detached is set to true" upper="0" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="text">Max Retries</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_MAX_RETRIESs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">The maximal number of state reads if wait for detached is set to true</entry>
+        <entry name="modifiable">1</entry>
+      <entry name="initvalue"/>
+            <entry name="customfield"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties>
+    </text></readpanel></dialog>]]></XUIEDITOR>
+</PROMPTSETXUI>
+<PROMPTSETDATA state="1">
+<DATAEDITOR><![CDATA[<PRPTS ontop="1"><PRPTBOX><UC4RB_AWS_VOLUME_IDs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_VOLUME_ID#" ReadFromTable="OPSE"></UC4RB_AWS_VOLUME_IDs.00><UC4RB_AWS_INSTANCE_IDs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_INSTANCE_ID#" ReadFromTable="OPSE"></UC4RB_AWS_INSTANCE_IDs.00><UC4RB_AWS_VOLUME_DEVICEs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_VOLUME_DEVICE#" ReadFromTable="OPSE"></UC4RB_AWS_VOLUME_DEVICEs.00><UC4RB_AWS_FORCE_DETACHs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_FORCE_DETACH#" ReadFromTable="OPSE">NO</UC4RB_AWS_FORCE_DETACHs.00><UC4RB_AWS_IS_DETACHEDs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_IS_DETACHED#" ReadFromTable="OPSE">YES</UC4RB_AWS_IS_DETACHEDs.00><UC4RB_AWS_RETRY_INTERVALs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_RETRY_INTERVAL#" ReadFromTable="OPSE">10</UC4RB_AWS_RETRY_INTERVALs.00><UC4RB_AWS_MAX_RETRIESs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_MAX_RETRIES#" ReadFromTable="OPSE">5</UC4RB_AWS_MAX_RETRIESs.00></PRPTBOX></PRPTS>]]></DATAEDITOR>
+</PROMPTSETDATA>
+<DOCU_Docu state="1" type="text">
+<DOC/>
+</DOCU_Docu>
+</PRPT>
+</uc-export>

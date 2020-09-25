@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?><uc-export clientvers="11.0.0">
+<VARA OVD_VRName="FREI" data_type="STATIC" name="PCK.AUTOMIC_AMAZON.PRV.VARA.INSTANCE_TYPE" replacementmode="2">
+<HEADER state="1">
+<Title/>
+<ArchiveKey1/>
+<ArchiveKey2/>
+<OH_SubType>STATIC</OH_SubType>
+</HEADER>
+<ATTR_VARA state="1">
+<Type>C|Text</Type>
+<lblSource>Static</lblSource>
+<source>STATIC</source>
+<VRName>FREI|Freely selected</VRName>
+<NotFoundErr>0</NotFoundErr>
+<NotFoundDef>1</NotFoundDef>
+<ShareN>0</ShareN>
+<ShareL>0</ShareL>
+<ShareR>0</ShareR>
+<MaxValue_C>1024</MaxValue_C>
+<CheckMax_C>0</CheckMax_C>
+<uppercase>0</uppercase>
+<sortColumn>2</sortColumn>
+<sortDirection>0</sortDirection>
+</ATTR_VARA>
+<VARA state="1">
+<Variables>
+<row Name="t1.micro" Value="t1.micro" Value1="1" Value2="" Value3="" Value4=""/>
+<row Name="m1.small" Value="m1.small" Value1="2" Value2="" Value3="" Value4=""/>
+<row Name="m1.medium" Value="m1.medium" Value1="3" Value2="" Value3="" Value4=""/>
+<row Name="m1.large" Value="m1.large" Value1="4" Value2="" Value3="" Value4=""/>
+<row Name="m1.xlarge" Value="m1.xlarge" Value1="5" Value2="" Value3="" Value4=""/>
+<row Name="m2.xlarge" Value="m2.xlarge" Value1="6" Value2="" Value3="" Value4=""/>
+<row Name="m2.2xlarge" Value="m2.2xlarge" Value1="7" Value2="" Value3="" Value4=""/>
+<row Name="m2.4xlarge" Value="m2.4xlarge" Value1="8" Value2="" Value3="" Value4=""/>
+<row Name="m3.xlarge" Value="m3.xlarge" Value1="9" Value2="" Value3="" Value4=""/>
+<row Name="m3.2xlarge" Value="m3.2xlarge" Value1="90" Value2="" Value3="" Value4=""/>
+<row Name="c1.medium" Value="c1.medium" Value1="91" Value2="" Value3="" Value4=""/>
+<row Name="c1.xlarge" Value="c1.xlarge" Value1="92" Value2="" Value3="" Value4=""/>
+<row Name="cc2.8xlarge" Value="cc2.8xlarge" Value1="94" Value2="" Value3="" Value4=""/>
+<row Name="cr1.8xlarge" Value="cr1.8xlarge" Value1="96" Value2="" Value3="" Value4=""/>
+<row Name="hi1.4xlarge" Value="hi1.4xlarge" Value1="97" Value2="" Value3="" Value4=""/>
+<row Name="hs1.8xlarge" Value="hs1.8xlarge" Value1="98" Value2="" Value3="" Value4=""/>
+<row Name="t2.micro" Value="t2.micro" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="t2.small" Value="t2.small" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="t2.medium" Value="t2.medium" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="m3.medium" Value="m3.medium" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="m3.large" Value="m3.large" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="c4.large" Value="c4.large" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="c4.xlarge" Value="c4.xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="c4.2xlarge" Value="c4.2xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="c4.4xlarge" Value="c4.4xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="c4.8xlarge" Value="c4.8xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="c3.large" Value="c3.large" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="c3.xlarge" Value="c3.xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="c3.2xlarge" Value="c3.2xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="c3.4xlarge" Value="c3.4xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="c3.8xlarge" Value="c3.8xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="g2.2xlarge" Value="g2.2xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="r3.large" Value="r3.large" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="r3.xlarge" Value="r3.xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="r3.2xlarge" Value="r3.2xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="r3.4xlarge" Value="r3.4xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="r3.8xlarge" Value="r3.8xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="i2.xlarge" Value="i2.xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="i2.2xlarge" Value="i2.2xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="i2.4xlarge" Value="i2.4xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+<row Name="i2.8xlarge" Value="i2.8xlarge" Value1="99" Value2="" Value3="" Value4=""/>
+</Variables>
+</VARA>
+<DOCU_Docu state="1" type="text">
+<DOC/>
+</DOCU_Docu>
+</VARA>
+</uc-export>

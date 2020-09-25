@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?><uc-export clientvers="11.0.0">
+<PRPT name="PCK.AUTOMIC_AMAZON.PRV.PROMPTSET.CREATE_VOLUME">
+<HEADER state="1">
+<Title/>
+<ArchiveKey1/>
+<ArchiveKey2/>
+<OH_SubType>STATIC</OH_SubType>
+</HEADER>
+<PROMPTDESIGNER state="1">
+<DESIGNER/>
+</PROMPTDESIGNER>
+<PROMPTSETXUI state="1">
+<XUIEDITOR><![CDATA[<dialog height="636" icon="PRPT" id="PRPTS" left="0" top="0" width="566"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Parameters"><properties><entry name="text">Parameters</entry><entry name="modifiable">0</entry></properties><text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AWS_VOLUME_SIZEs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Size" tooltip="The size of the volume, in GiBs. If you&apos;re creating the volume from a snapshot and don&apos;t specify a volume size, the default is the snapshot size. Constraints: If the volume type is io1, the minimum size of the volume is 10 GiB." upper="0" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="text">Size</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_VOLUME_SIZEs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">1</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">The size of the volume, in GiBs. If you&apos;re creating the volume from a snapshot and don&apos;t specify a volume size, the default is the snapshot size. Constraints: If the volume type is io1, the minimum size of the volume is 10 GiB.</entry>
+        <entry name="modifiable">1</entry>
+      <entry name="initvalue"/>
+         <entry name="customfield"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties>
+    </text><text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AWS_SNAPSHOT_IDs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Snapshot" tooltip="The ID of the snapshot from which to create the new volume. Required if you are creating a volume from a snapshot." upper="0" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="text">Snapshot</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_SNAPSHOT_IDs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">The ID of the snapshot from which to create the new volume. Required if you are creating a volume from a snapshot.</entry>
+        <entry name="modifiable">1</entry>
+      <entry name="initvalue"/>
+         <entry name="customfield"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties>
+    </text><text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AWS_VOLUME_ZONEs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Availability Zone" tooltip="The Availability Zone in which to create the new volume." upper="0" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="text">Availability Zone</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_VOLUME_ZONEs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">1</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">The Availability Zone in which to create the new volume.</entry>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties>
+    </text><dynradiogroup alt="1" enabled="1" fill="b" focus="" id="UC4RB_AWS_VOLUME_TYPEs.00" nl="1" text="Type" tooltip="The volume type." required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">PCK.AUTOMIC_AMAZON.PRV.VARA.VOLUME_TYPE</entry>
+        <entry name="text">Type</entry>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_VOLUME_TYPEs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip">The volume type.</entry>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/></properties>
+    </dynradiogroup><text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AWS_VOLUME_IOPSs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="IOPS" tooltip="The number of I/O operations per second (IOPS) that the volume supports.  Required when the volume type is io1, not used with standard volumes. " upper="0" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="text">IOPS</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_VOLUME_IOPSs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">The number of I/O operations per second (IOPS) that the volume supports.  Required when the volume type is io1, not used with standard volumes. </entry>
+        <entry name="modifiable">1</entry>
+      <entry name="initvalue"/>
+         <entry name="customfield"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties>
+    </text><dynradiogroup alt="1" enabled="1" fill="b" focus="" id="UC4RB_AWS_IS_AVAILABLEs.00" nl="1" text="Wait for available" tooltip="Wait till the volume state change to available." required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO</entry>
+        <entry name="text">Wait for available</entry>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_IS_AVAILABLEs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip">Wait till the volume state change to available.</entry>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/></properties>
+    </dynradiogroup><text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AWS_RETRY_INTERVALs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Retry Interval" tooltip="The time in seconds between the state reads if wait for available is set to yes." upper="0" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="text">Retry Interval</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_RETRY_INTERVALs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">The time in seconds between the state reads if wait for available is set to yes.</entry>
+        <entry name="modifiable">1</entry>
+      <entry name="initvalue"/>
+         <entry name="customfield"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties>
+    </text><text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AWS_MAX_RETRIESs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Max Retries" tooltip="The maximal number of state reads if wait for available is set to true." upper="0" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+        <entry name="text">Max Retries</entry>
+        <entry name="multiselect">0</entry>
+        <entry name="separator">;</entry>
+        <entry name="len"/>
+        <entry name="quotes"/>
+        <entry name="id">UC4RB_AWS_MAX_RETRIESs.00</entry>
+        <entry name="regex"/>
+        <entry name="inputassistance">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="required">0</entry>
+        <entry name="upper">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="showaspassword">0</entry>
+        <entry name="tooltip">The maximal number of state reads if wait for available is set to true.</entry>
+        <entry name="modifiable">1</entry>
+      <entry name="initvalue"/>
+         <entry name="customfield"/>
+         <entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties>
+    </text></readpanel></dialog>]]></XUIEDITOR>
+</PROMPTSETXUI>
+<PROMPTSETDATA state="1">
+<DATAEDITOR><![CDATA[<PRPTS ontop="1"><PRPTBOX><UC4RB_AWS_VOLUME_SIZEs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_VOLUME_SIZE#" ReadFromTable="OPSE"></UC4RB_AWS_VOLUME_SIZEs.00><UC4RB_AWS_SNAPSHOT_IDs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_SNAPSHOT_ID#" ReadFromTable="OPSE"></UC4RB_AWS_SNAPSHOT_IDs.00><UC4RB_AWS_VOLUME_ZONEs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_VOLUME_ZONE#" ReadFromTable="OPSE"></UC4RB_AWS_VOLUME_ZONEs.00><UC4RB_AWS_VOLUME_TYPEs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_VOLUME_TYPE#" ReadFromTable="OPSE">standard</UC4RB_AWS_VOLUME_TYPEs.00><UC4RB_AWS_VOLUME_IOPSs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_VOLUME_IOPS#" ReadFromTable="OPSE"></UC4RB_AWS_VOLUME_IOPSs.00><UC4RB_AWS_IS_AVAILABLEs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_IS_AVAILABLE#" ReadFromTable="OPSE">YES</UC4RB_AWS_IS_AVAILABLEs.00><UC4RB_AWS_RETRY_INTERVALs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_RETRY_INTERVAL#" ReadFromTable="OPSE">10</UC4RB_AWS_RETRY_INTERVALs.00><UC4RB_AWS_MAX_RETRIESs.00 haslist="0" msgnr="-1" msginsert="" altview="0" promptname="UC4RB_AWS_MAX_RETRIES#" ReadFromTable="OPSE">5</UC4RB_AWS_MAX_RETRIESs.00></PRPTBOX></PRPTS>]]></DATAEDITOR>
+</PROMPTSETDATA>
+<DOCU_Docu state="1" type="text">
+<DOC/>
+</DOCU_Docu>
+</PRPT>
+</uc-export>

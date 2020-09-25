@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Version: 1.0.0 -->
+<WorkflowType baseType="General" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="workflow.xsd">
+	<Name>AWS</Name>
+	<Properties>
+		<Group name="agent_assignment" displayName="Agent Assignment">
+			<Property name="execute_on" type="Reference" referenceTo="DeploymentTarget"  mode="EDITABLE" displayName="Execute on">
+				<Description>Use to set the executing agent for this workflow.</Description>
+            </Property>
+            <Property name="agent_login" type="Reference" referenceTo="Login"  mode="EDITABLE" displayName="Login">
+				<Description>Override / Set the login object for the agent/host.</Description>
+            </Property>			
+		</Group>	
+	    <Group name="security_group" displayName="Security">
+            <Property name="access_key" type="Protected" mode="EDITABLE" displayName="Access Key">
+				<Description>The access key ID associated with your AWS account.</Description>
+            </Property>
+			<Property name="secret_key" type="Protected" mode="EDITABLE" displayName="Secret Key">
+				<Description>The secret access key associated with your AWS account.</Description>
+            </Property>
+			<Property name="security_token" type="Protected" mode="EDITABLE" displayName="Security Token">
+				<Description>The AWS delegation token.</Description>
+            </Property>			
+        </Group>
+	    <Group name="connectivity_group" displayName="Connectivity">
+            <Property name="url" type="SingleLineText" mode="EDITABLE" displayName="URL"> 
+				<Defaultvalue>https://ec2.amazonaws.com</Defaultvalue>
+				<Description>The uniform resource locator (URL) of the Amazon EC2 web service entry point.</Description>
+            </Property>
+            <Property name="region" type="SingleLineText" mode="EDITABLE" displayName="Region">
+				<Description>By default, the Amazon EC2 tools use the US East (Northern Virginia) Region (us-east-1) with the ec2.us-east-1.amazonaws.com service endpoint URL. If your instances are in a different region, you must specify the region where your instances reside. </Description>
+            </Property>
+			<Property name="connection_timeout" type="Integer" mode="EDITABLE" displayName="Connection Timeout">
+				<Description>The connection timeout, in seconds.</Description>
+            </Property>
+			<Property name="request_timeout" type="Integer" mode="EDITABLE" displayName="Request Timeout">
+				<Description>The request timeout, in seconds.</Description>
+            </Property>			
+        </Group>			
+	</Properties>
+    <DynamicProperties>     
+		<!-- Security -->
+		<Property name="/amazon/security/access_key" highlighted="false">
+			<Value>{/custom/access_key}</Value>
+			<Description>The access key ID associated with your AWS account.</Description>
+		</Property>
+		<Property name="/amazon/security/secret_key" highlighted="false">
+			<Value>{/custom/secret_key}</Value>
+			<Description>The secret access key associated with your AWS account.</Description>
+		</Property>	
+		<Property name="/amazon/security/security_token" highlighted="false">
+			<Value>{/custom/security_token}</Value>
+			<Description>The AWS delegation token.</Description>
+		</Property>	
+		<!-- Connectivity -->
+		<Property name="/amazon/connectivity/url" highlighted="false">
+			<Value>{/custom/url}</Value>
+			<Description>The uniform resource locator (URL) of the Amazon EC2 web service entry point.</Description>
+		</Property>
+		<Property name="/amazon/connectivity/region" highlighted="false">
+			<Value>{/custom/region}</Value>
+			<Description>By default, the Amazon EC2 tools use the US East (Northern Virginia) Region (us-east-1) with the ec2.us-east-1.amazonaws.com service endpoint URL. If your instances are in a different region, you must specify the region where your instances reside. </Description>
+		</Property>
+		<Property name="/amazon/connectivity/connection_timeout" highlighted="false">
+			<Value>{/custom/connection_timeout}</Value>
+			<Description>The connection timeout, in seconds.</Description>
+		</Property>
+		<Property name="/amazon/connectivity/request_timeout" highlighted="false">
+			<Value>{/custom/request_timeout}</Value>
+			<Description>The request timeout, in seconds.</Description>
+		</Property>		
+		<!-- Agent Assignment-->
+		<Property name="/agent_assignment/agent" highlighted="false">
+			<Value>{/custom/execute_on/system/agent}</Value>
+			<Description>Set the excuting agent</Description>
+		</Property>
+		<Property name="/agent_assignment/login" highlighted="false">
+			<Value>{/custom/agent_login/system/technical_name}</Value>
+			<Description>Set login object</Description>
+		</Property>			
+	</DynamicProperties>		
+</WorkflowType>
+

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?><uc-export clientvers="11.0.0">
+<JOBS_WINDOWS AttrType="WINDOWS" name="PCK.AUTOMIC_AMAZON.PRV.JOB.ASSOCIATE_ADDRESS@WINDOWS">
+<XHEADER state="1">
+<Title/>
+<ArchiveKey1/>
+<ArchiveKey2/>
+<Active>1</Active>
+<OH_SubType/>
+<CustomAttributes KeyListID="0" dataRequestID="0"/>
+</XHEADER>
+<OUTPUTREG state="1">
+<FileReg/>
+</OUTPUTREG>
+<SYNCREF state="1">
+<Syncs/>
+</SYNCREF>
+<ATTR_JOBS state="1">
+<Queue>CLIENT_QUEUE</Queue>
+<StartType/>
+<HostDst>|&lt;WIN&gt;|HOST</HostDst>
+<HostATTR_Type>WINDOWS</HostATTR_Type>
+<CodeName/>
+<Login/>
+<IntAccount/>
+<ExtRepDef>1</ExtRepDef>
+<ExtRepAll>0</ExtRepAll>
+<ExtRepNone>0</ExtRepNone>
+<AutoDeactNo>0</AutoDeactNo>
+<AutoDeact1ErrorFree>0</AutoDeact1ErrorFree>
+<AutoDeactErrorFree>1</AutoDeactErrorFree>
+<DeactWhen>ANY_OK</DeactWhen>
+<DeactDelay>0</DeactDelay>
+<AutoDeactAlways>1</AutoDeactAlways>
+<AttDialog>0</AttDialog>
+<ActAtRun>0</ActAtRun>
+<Consumption>0</Consumption>
+<UC4Priority>0</UC4Priority>
+<MaxParallel2>0</MaxParallel2>
+<MpElse1>1</MpElse1>
+<MpElse2>0</MpElse2>
+<TZ/>
+</ATTR_JOBS>
+<ATTR_WINDOWS state="1">
+<OutputDb>1</OutputDb>
+<OutputDbErr>0</OutputDbErr>
+<OutputFile>0</OutputFile>
+<IsGenerated>0</IsGenerated>
+<BAT>0</BAT>
+<COM>0</COM>
+<WinBatch>1</WinBatch>
+<Standard>1</Standard>
+<Minimized>0</Minimized>
+<Maximized>0</Maximized>
+<JObjDefault>1</JObjDefault>
+<JObjYes>0</JObjYes>
+<JObjNo>0</JObjNo>
+<WorkingDirectory>c:\</WorkingDirectory>
+<Command/>
+<LogOn>0</LogOn>
+<ShowJob>0</ShowJob>
+</ATTR_WINDOWS>
+<RUNTIME state="1">
+<MaxRetCode>0</MaxRetCode>
+<MrcExecute/>
+<MrcElseE>0</MrcElseE>
+<FcstStatus>0|U00000000 ??? ""</FcstStatus>
+
+<ErtMethodDef>1</ErtMethodDef>
+<ErtMethodFix>0</ErtMethodFix>
+<ErtFix>0</ErtFix>
+<ErtDynMethod>2|Average</ErtDynMethod>
+<ErtMethodDyn>0</ErtMethodDyn>
+<ErtCnt>0</ErtCnt>
+<ErtCorr>0</ErtCorr>
+<ErtIgn>0</ErtIgn>
+<ErtIgnFlg>0</ErtIgnFlg>
+<ErtMinCnt>0</ErtMinCnt>
+<MrtMethodNone>1</MrtMethodNone>
+<MrtMethodFix>0</MrtMethodFix>
+<MrtFix>0</MrtFix>
+<MrtMethodErt>0</MrtMethodErt>
+<MrtErt>0</MrtErt>
+<MrtMethodDate>0</MrtMethodDate>
+<MrtDays>0</MrtDays>
+<MrtTime>00:00</MrtTime>
+<MrtTZ/>
+<SrtMethodNone>1</SrtMethodNone>
+<SrtMethodFix>0</SrtMethodFix>
+<SrtFix>0</SrtFix>
+<SrtMethodErt>0</SrtMethodErt>
+<SrtErt>0</SrtErt>
+<MrtCancel>0</MrtCancel>
+<MrtExecute>0</MrtExecute>
+<MrtExecuteObj/>
+</RUNTIME>
+<DYNVALUES state="1">
+<dyntree>
+<node content="1" id="VALUE" name="Variables" parent="" type="VALUE">
+<VALUE state="1">
+<Values/>
+<Mode>0</Mode>
+</VALUE>
+</node>
+</dyntree>
+</DYNVALUES>
+<ROLLBACK state="1">
+<RollbackFlag>0</RollbackFlag>
+<CBackupObj/>
+<CRollbackObj/>
+<FBackupPath/>
+<FDeleteBefore>0</FDeleteBefore>
+<FInclSubDirs>0</FInclSubDirs>
+</ROLLBACK>
+<PRE_SCRIPT mode="1" replacementmode="1" state="1">
+<PSCRI><![CDATA[:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB]]></PSCRI>
+</PRE_SCRIPT>
+<SCRIPT mode="1" state="1">
+<MSCRI><![CDATA[:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.POWERSHELL_UTILITY
+:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+:INCLUDE PCK.AUTOMIC_AMAZON.PRV.INCLUDE.CHECK_ENVIRONMENT@WINDOWS
+
+:INCLUDE PCK.AUTOMIC_AMAZON.PRV.INCLUDE.CHECK_COMMON_OPTIONS
+
+:SET &UC4RB_INSTANCE_OPTION# = ""
+:SET &UC4RB_ADDRESS_OPTION# = ""
+
+:IF &UC4RB_INSTANCE_ID# = ""
+:  IF &UC4RB_AWS_NI_ID# = ""
+:    PRINT "Invalid input paramters. Either instance ID or network interface ID must be set"
+:    EXIT 1
+:  ELSE
+:    SET &UC4RB_INSTANCE_OPTION# = "-n &UC4RB_AWS_NI_ID#"
+:  ENDIF
+:ELSE
+:  IF &UC4RB_AWS_NI_ID# <> ""
+:    PRINT "Invalid input paramters. Only one of instance ID or network interface ID is set, not both"
+:    EXIT 1
+:  ENDIF
+:  SET &UC4RB_INSTANCE_OPTION# = "-i &UC4RB_INSTANCE_ID#"
+:ENDIF
+
+:IF &UC4RB_AWS_IP# <> ""
+:  SET &UC4RB_ADDRESS_OPTION# = "&UC4RB_AWS_IP#"
+:ELSE
+:  IF &UC4RB_AWS_ALLOC_ID# = ""
+:    PRINT "Error: Allocation ID is required for VPC"
+:    EXIT 1
+:  ELSE
+:    SET &UC4RB_ADDRESS_OPTION# = "-a &UC4RB_AWS_ALLOC_ID#"
+:  ENDIF
+:ENDIF
+
+:SET &UC4RB_VPC_OPTIONS# = ''
+
+:IF &UC4RB_AWS_PRIV_IP# <> ""
+:  SET &UC4RB_VPC_OPTIONS# = STR_CAT(&UC4RB_VPC_OPTIONS#, '-p &UC4RB_AWS_PRIV_IP# ')
+:ENDIF
+
+:IF &UC4RB_AWS_ALLOW_REASSOC# = "YES"
+:  SET &UC4RB_VPC_OPTIONS# = STR_CAT(&UC4RB_VPC_OPTIONS#, '--allow-reassociation')
+:ENDIF
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+Write-Host "`nAssociating Elastic IP address.."
+
+$output = java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" arb -cmd execute $env:EC2_HOME\bin\ec2-associate-address.cmd &UC4RB_AWS_COMMON_OPTIONS# &UC4RB_INSTANCE_OPTION# &UC4RB_ADDRESS_OPTION# &UC4RB_VPC_OPTIONS#
+
+$result = $output | select-string -pattern ^ADDRESS -caseSensitive
+
+if (![bool]($result)) {
+  $error = [string]::join("`n", $output)
+  Write-Host $error
+  Write-Host "Failed to associate address"
+  exit 1
+}
+
+Write-Host $result
+Write-Host "Successfully associate address`n"
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_POWERSHELL_CMD@WINDOWS]]></MSCRI>
+</SCRIPT>
+<OUTPUTSCAN state="1">
+<Inherit>N</Inherit>
+<filterobjects/>
+<HostFsc/>
+<LoginFsc/>
+</OUTPUTSCAN>
+<POST_SCRIPT mode="1" replacementmode="1" state="1">
+<OSCRI><![CDATA[:SET &output_entry# = PREP_PROCESS_REPORT(, , "REP", "ADDRESS*")
+:PROCESS &output_entry#
+:  SET &output_line# = GET_PROCESS_LINE(&output_entry#, 1)
+
+!  Extract the delimiter character from this line, usually the tab character
+:  SET &tab# = STR_CUT(&output_line#, 8, 1)
+:  SET &output_line# = SUBSTR(&output_line#, 9)
+!  Replace the tab character with single space to easier to split
+:  SET &output_line# = STR_SUB(&output_line#, &tab#, " ")
+
+:  DEFINE &results#, string, 5
+:  FILL &results#[] = STR_SPLIT(&output_line#, " ")
+:  SET &len# = LENGTH(&results#[])
+
+:  SET &UC4RB_OUT_EL_IP_ADDR# = &results#[1]
+:  SET &UC4RB_OUT_NI# = &results#[2]
+:  PUBLISH &UC4RB_OUT_EL_IP_ADDR#, , "WORKFLOW"
+:  PUBLISH &UC4RB_OUT_NI#, , "WORKFLOW"
+
+:  PRINT 'Elastic IP Address: &UC4RB_OUT_EL_IP_ADDR#'
+:  PRINT 'Instance or network interface: &UC4RB_OUT_NI#'
+
+:  IF &results#[3] <> ""
+:    SET &UC4RB_OUT_ALLOC_ID# = &results#[3]
+:    PUBLISH &UC4RB_OUT_ALLOC_ID#, , "WORKFLOW"
+:    PRINT 'Allocation ID: &UC4RB_OUT_ALLOC_ID#'
+:  ENDIF
+
+:  IF &results#[4] <> ""
+:    SET &UC4RB_OUT_ASSOC_ID# = &results#[4]
+:    PUBLISH &UC4RB_OUT_ASSOC_ID#, , "WORKFLOW"
+:    PRINT 'Association ID: &UC4RB_OUT_ASSOC_ID#'
+:  ENDIF
+
+:  IF &results#[5] <> ""
+:    SET &UC4RB_OUT_PRIV_IP# = &results#[5]
+:    PUBLISH &UC4RB_OUT_PRIV_IP#, , "WORKFLOW"
+:    PRINT 'Private IP Address: &UC4RB_OUT_PRIV_IP#'
+:  ENDIF
+
+:ENDPROCESS
+:CLOSE_PROCESS &output_entry#]]></OSCRI>
+</POST_SCRIPT>
+<DOCU_Docu state="1" type="text">
+<DOC/>
+</DOCU_Docu>
+</JOBS_WINDOWS>
+</uc-export>

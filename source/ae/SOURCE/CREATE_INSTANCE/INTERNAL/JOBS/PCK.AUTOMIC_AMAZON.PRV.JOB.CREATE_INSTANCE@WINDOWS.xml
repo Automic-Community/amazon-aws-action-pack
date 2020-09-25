@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?><uc-export clientvers="11.0.0">
+<JOBS_WINDOWS AttrType="WINDOWS" name="PCK.AUTOMIC_AMAZON.PRV.JOB.CREATE_INSTANCE@WINDOWS">
+<XHEADER state="1">
+<Title/>
+<ArchiveKey1/>
+<ArchiveKey2/>
+<Active>1</Active>
+<OH_SubType/>
+<CustomAttributes KeyListID="0" dataRequestID="0"/>
+</XHEADER>
+<OUTPUTREG state="1">
+<FileReg/>
+</OUTPUTREG>
+<SYNCREF state="1">
+<Syncs/>
+</SYNCREF>
+<ATTR_JOBS state="1">
+<Queue>CLIENT_QUEUE</Queue>
+<StartType/>
+<HostDst>|&lt;WIN&gt;|HOST</HostDst>
+<HostATTR_Type>WINDOWS</HostATTR_Type>
+<CodeName/>
+<Login/>
+<IntAccount/>
+<ExtRepDef>1</ExtRepDef>
+<ExtRepAll>0</ExtRepAll>
+<ExtRepNone>0</ExtRepNone>
+<AutoDeactNo>0</AutoDeactNo>
+<AutoDeact1ErrorFree>0</AutoDeact1ErrorFree>
+<AutoDeactErrorFree>1</AutoDeactErrorFree>
+<DeactWhen>ANY_OK</DeactWhen>
+<DeactDelay>0</DeactDelay>
+<AutoDeactAlways>1</AutoDeactAlways>
+<AttDialog>0</AttDialog>
+<ActAtRun>0</ActAtRun>
+<Consumption>0</Consumption>
+<UC4Priority>0</UC4Priority>
+<MaxParallel2>0</MaxParallel2>
+<MpElse1>1</MpElse1>
+<MpElse2>0</MpElse2>
+<TZ/>
+</ATTR_JOBS>
+<ATTR_WINDOWS state="1">
+<OutputDb>1</OutputDb>
+<OutputDbErr>0</OutputDbErr>
+<OutputFile>0</OutputFile>
+<IsGenerated>0</IsGenerated>
+<BAT>0</BAT>
+<COM>0</COM>
+<WinBatch>1</WinBatch>
+<Standard>1</Standard>
+<Minimized>0</Minimized>
+<Maximized>0</Maximized>
+<JObjDefault>1</JObjDefault>
+<JObjYes>0</JObjYes>
+<JObjNo>0</JObjNo>
+<WorkingDirectory>c:\</WorkingDirectory>
+<Command/>
+<LogOn>0</LogOn>
+<ShowJob>0</ShowJob>
+</ATTR_WINDOWS>
+<RUNTIME state="1">
+<MaxRetCode>0</MaxRetCode>
+<MrcExecute/>
+<MrcElseE>0</MrcElseE>
+<FcstStatus>0|U00000000 ??? ""</FcstStatus>
+
+<ErtMethodDef>1</ErtMethodDef>
+<ErtMethodFix>0</ErtMethodFix>
+<ErtFix>0</ErtFix>
+<ErtDynMethod>2|Average</ErtDynMethod>
+<ErtMethodDyn>0</ErtMethodDyn>
+<ErtCnt>0</ErtCnt>
+<ErtCorr>0</ErtCorr>
+<ErtIgn>0</ErtIgn>
+<ErtIgnFlg>0</ErtIgnFlg>
+<ErtMinCnt>0</ErtMinCnt>
+<MrtMethodNone>1</MrtMethodNone>
+<MrtMethodFix>0</MrtMethodFix>
+<MrtFix>0</MrtFix>
+<MrtMethodErt>0</MrtMethodErt>
+<MrtErt>0</MrtErt>
+<MrtMethodDate>0</MrtMethodDate>
+<MrtDays>0</MrtDays>
+<MrtTime>00:00</MrtTime>
+<MrtTZ/>
+<SrtMethodNone>1</SrtMethodNone>
+<SrtMethodFix>0</SrtMethodFix>
+<SrtFix>0</SrtFix>
+<SrtMethodErt>0</SrtMethodErt>
+<SrtErt>0</SrtErt>
+<MrtCancel>0</MrtCancel>
+<MrtExecute>0</MrtExecute>
+<MrtExecuteObj/>
+</RUNTIME>
+<DYNVALUES state="1">
+<dyntree>
+<node content="1" id="VALUE" name="Variables" parent="" type="VALUE">
+<VALUE state="1">
+<Values/>
+<Mode>0</Mode>
+</VALUE>
+</node>
+</dyntree>
+</DYNVALUES>
+<ROLLBACK state="1">
+<RollbackFlag>0</RollbackFlag>
+<CBackupObj/>
+<CRollbackObj/>
+<FBackupPath/>
+<FDeleteBefore>0</FDeleteBefore>
+<FInclSubDirs>0</FInclSubDirs>
+</ROLLBACK>
+<PRE_SCRIPT mode="1" replacementmode="1" state="1">
+<PSCRI><![CDATA[:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB]]></PSCRI>
+</PRE_SCRIPT>
+<SCRIPT mode="1" state="1">
+<MSCRI><![CDATA[:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.POWERSHELL_UTILITY
+:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+:INCLUDE PCK.AUTOMIC_AMAZON.PRV.INCLUDE.CHECK_ENVIRONMENT@WINDOWS
+
+:INCLUDE PCK.AUTOMIC_AMAZON.PRV.INCLUDE.CHECK_COMMON_OPTIONS
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+:INCLUDE PCK.AUTOMIC_AMAZON.PRV.INCLUDE.CHECK_SECURITY_GROUPS_OPTIONS
+
+:SET &UC4RB_IS_VPC_INSTANCE# = 'NO'
+
+:IF &UC4RB_AWS_GET_PUBLIC_IP# = "YES"
+:  IF &UC4RB_AWS_NETWORK_INTERFACE# <> ""
+:    PRINT Get Public IP option cannot be used with Network Interface
+:    EXIT 1
+:  ENDIF
+:  IF &UC4RB_AWS_SUBNET# <> ""
+:    SET &UC4RB_IS_VPC_INSTANCE# = 'YES'
+!    Allocate new Elastic IP
+     Write-Host "`nAllocating new Elastic IP address.."
+     $output = java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" arb -cmd execute $env:EC2_HOME\bin\ec2-allocate-address.cmd &UC4RB_AWS_COMMON_OPTIONS# -d vpc
+
+     $result = $output | select-string -pattern ^ADDRESS -caseSensitive
+
+     if (![bool]($result)) {
+       Write-Host Failed to allocate new address
+       $error_message = [string]::join("`n", $output)
+       Write-Host $error_message
+       exit 1
+     }
+
+     $split = ($result.tostring() -replace '\s+', " ").Trim().split(" ")
+     $ip_address = $split[1]
+     $alloc_id = $split[3]
+
+     Write-Host $result
+     Write-Host "Successfully allocate address $ip_address`n"
+
+     Write-Host Creating network interface..
+     $output = java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" arb -cmd execute $env:EC2_HOME\bin\ec2-create-network-interface.cmd &UC4RB_AWS_COMMON_OPTIONS# &UC4RB_SG_OPTIONS# &UC4RB_AWS_SUBNET#
+     $result = $output | select-string -pattern ^NETWORKINTERFACE -caseSensitive
+     if (![bool]($result)) {
+       Write-Host Failed to create network interface
+       $error_message = [string]::join("`n", $output)
+       Write-Host $error_message
+       exit 1
+     }
+     $split = ($result.tostring() -replace '\s+', " ").Trim().split(" ")
+     $nic_id = $split[1]
+     Write-Host $result
+     Write-Host "Successfully create network interface $nic_id`n"
+
+!    Associate
+     Write-Host Associating IP address..
+     $output = java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" arb -cmd execute $env:EC2_HOME\bin\ec2-associate-address.cmd &UC4RB_AWS_COMMON_OPTIONS# -n $nic_id -a $alloc_id --allow-reassociation
+     $result = $output | select-string -pattern ^ADDRESS -caseSensitive
+
+     if (![bool]($result)) {
+       $error_message = [string]::join("`n", $output)
+       Write-Host $error_message
+       Write-Host "Failed to associate address"
+       exit 1
+     }
+
+     Write-Host $result
+     Write-Host "Successfully associate address"
+
+:  ELSE
+:    IF &UC4RB_AWS_STOP# = "YES"
+:      PRINT Get Public IP option and Stop option cannot be used together for non-VPC instance
+:      EXIT 1
+:    ENDIF
+:  ENDIF
+:ENDIF
+
+:SET &UC4RB_RUN_OPTIONS# = '&UC4RB_AWS_AMI_ID# '
+
+:IF &UC4RB_AWS_KEY_PAIR# <> ""
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '-k &UC4RB_AWS_KEY_PAIR# ')
+:ENDIF
+
+:IF &UC4RB_AWS_USER_DATA# <> ""
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--user-data &UC4RB_AWS_USER_DATA# ')
+:ENDIF
+
+:IF &UC4RB_AWS_USER_DATA_FILE# <> ""
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--user-data-file &UC4RB_AWS_USER_DATA_FILE# ')
+:ENDIF
+
+:SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '-t &UC4RB_AWS_INSTANCE_TYPE# ')
+
+:IF &UC4RB_AWS_AVAILABILITY_ZONE# <> ""
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '-z &UC4RB_AWS_AVAILABILITY_ZONE# ')
+:ENDIF
+
+:IF &UC4RB_AWS_KERNEL# <> ""
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--kernel &UC4RB_AWS_KERNEL# ')
+:ENDIF
+
+:IF &UC4RB_AWS_RAMDISK# <> ""
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--ramdisk &UC4RB_AWS_RAMDISK# ')
+:ENDIF
+
+:IF &UC4RB_AWS_BLOCKDEV# <> ""
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '-b "&UC4RB_AWS_BLOCKDEV#" ')
+:ENDIF
+
+:IF &UC4RB_AWS_MONITOR# = "YES"
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--monitor ')
+:ENDIF
+
+:IF &UC4RB_AWS_DISABLE_API_TERM# = "YES"
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--disable-api-termination true ')
+:ENDIF
+
+:IF &UC4RB_AWS_SHUTDOWN_BEHAVIOR# = "TERMINATE"
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--instance-initiated-shutdown-behavior terminate ')
+:ENDIF
+
+:IF &UC4RB_AWS_PLACEMENT_GRP# <> ""
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--placement-group &UC4RB_AWS_PLACEMENT_GRP# ')
+:ENDIF
+
+:IF &UC4RB_AWS_TENANCY# <> ""
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--tenancy &UC4RB_AWS_TENANCY# ')
+:ENDIF
+
+:IF &UC4RB_AWS_PRIVATE_IP# <> ""
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--private-ip-address &UC4RB_AWS_PRIVATE_IP# ')
+:ENDIF
+
+:IF &UC4RB_AWS_SECONDARY_IP_COUNT# <> ""
+:  IF &UC4RB_AWS_SECONDARY_IP# <> ""
+:    PRINT 'Secondary private IP address count cannot be used along with Secondary private ip address'
+:    EXIT 1
+:  ENDIF
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--secondary-private-ip-address-count &UC4RB_AWS_SECONDARY_IP_COUNT# ')
+:ENDIF
+
+:IF &UC4RB_AWS_SECONDARY_IP# <> ""
+:  DEFINE &UC4RB_SECONDARY_IP_LIST#, string, 100
+:  FILL &UC4RB_SECONDARY_IP_LIST#[] = STR_SPLIT(&UC4RB_AWS_SECONDARY_IP#, ",")
+:  SET &UC4RB_LEN# = LENGTH(&UC4RB_SECONDARY_IP_LIST#[], SIZE)
+:  SET &UC4RB_INDEX# = 1
+:  SET &UC4RB_SECONDARY_IP_OPTION# = ''
+:  WHILE &UC4RB_INDEX# LE &UC4RB_LEN#
+:    SET &UC4RB_IP_ADDRESS# = STR_TRIM(&UC4RB_SECONDARY_IP_LIST#[&UC4RB_INDEX#])
+:    SET &UC4RB_SECONDARY_IP_OPTION# = STR_CAT(&UC4RB_SECONDARY_IP_OPTION#, '--secondary-private-ip-address &UC4RB_IP_ADDRESS# ')
+:    SET &UC4RB_INDEX# = &UC4RB_INDEX# + 1
+:  ENDWHILE
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, &UC4RB_SECONDARY_IP_OPTION#)
+:ENDIF
+
+:IF &UC4RB_AWS_CLIENT_TOKEN# <> ""
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--client-token &UC4RB_AWS_CLIENT_TOKEN# ')
+:ENDIF
+
+:IF &UC4RB_AWS_IAM_PROFILE# <> ""
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--iam-profile &UC4RB_AWS_IAM_PROFILE# ')
+:ENDIF
+
+:IF &UC4RB_AWS_EBS_OPTIMIZED# = "YES"
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '--ebs-optimized true ')
+:ENDIF
+
+! Important: Only for non-VPC instance, we will evaluate security group, network interface, subnet parameters
+:IF &UC4RB_IS_VPC_INSTANCE# = "NO"
+:  SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '&UC4RB_SG_OPTIONS# ')
+
+!  Only use network interface input parameter if this is normal EC2 instance
+!  Remember that in case instance is for VPC, means that we have created NIC, the obtained NIC ID will be used later to create instance
+:  IF &UC4RB_AWS_NETWORK_INTERFACE# <> ""
+:    SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '-a &UC4RB_AWS_NETWORK_INTERFACE# ')
+:  ENDIF
+
+:  IF &UC4RB_AWS_SUBNET# <> ""
+:    SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '-s &UC4RB_AWS_SUBNET# ')
+:  ENDIF
+:ENDIF
+
+! Run instance
+Set-Location &UC4RB_AGENT_WORKING_DIR#
+:IF &UC4RB_IS_VPC_INSTANCE# = "YES"
+   Write-Host "`nLaunching new VPC instance.."
+:  IF &UC4RB_AWS_PRIVATE_IP# <> ""
+:    SET &UC4RB_RUN_OPTIONS# = STR_CAT(&UC4RB_RUN_OPTIONS#, '-s &UC4RB_AWS_SUBNET# ')
+     $output = java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" arb -cmd execute $env:EC2_HOME\bin\ec2-run-instances.cmd &UC4RB_AWS_COMMON_OPTIONS# &UC4RB_RUN_OPTIONS#
+:  ELSE
+     $output = java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" arb -cmd execute $env:EC2_HOME\bin\ec2-run-instances.cmd &UC4RB_AWS_COMMON_OPTIONS# &UC4RB_RUN_OPTIONS# -a $nic_id`:0
+:  ENDIF
+:ELSE
+   Write-Host "`nLaunching new instance.."
+   $output = java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" arb -cmd execute $env:EC2_HOME\bin\ec2-run-instances.cmd &UC4RB_AWS_COMMON_OPTIONS# &UC4RB_RUN_OPTIONS#
+:ENDIF
+
+$result = $output | select-string -pattern ^INSTANCE -caseSensitive
+
+if (![bool]($result)) {
+  Write-Host "Failed to create new instance"
+  $error_message = [string]::join("`n", $output)
+  Write-Host $error_message
+  exit 1
+}
+
+Write-Host $result
+!Print out private ip addresses - start <---
+$private_ip = $output | select-string -pattern ^PRIVATEIPADDRESS -caseSensitive
+if ($private_ip) {
+  $replace_pattern_from = "PRIVATEIPADDRESS`t"
+  $replace_pattern_to = " "
+  $private_ip = $private_ip -replace $replace_pattern_from, $replace_pattern_to
+  $private_ip = $private_ip -replace '(^\s+|\s+$)','' -replace '\s+',' '
+  Write-Host PRIVATEIPADDRESS`t$private_ip
+}
+!Print out private ip addresses - end --->
+
+$split = $result.tostring().split("`t")
+$instance_id = $split[1]
+
+Write-Host "Successfully create instance $instance_id`n"
+
+!
+! We should check for instance's state before assign name tag for instance to avoid 'instance does not exist' error
+!
+Write-Host "Waiting for instance running & reachable...`n"
+Start-Sleep -s 30
+$cycle = 10
+$times = 0
+$maxTry = 45
+$result = "found"
+while ([bool]($result)) {
+  if ($times -eq $maxTry) {
+    Write-Host "Instance still not in reachable state for $maxTry times ($($cycle*$maxTry) sec)"
+    $error_message = [string]::join("`n", $output)
+    Write-Host $error_message
+    exit 1
+  }
+  $output = java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" arb -cmd execute $env:EC2_HOME\bin\ec2-describe-instance-status.cmd &UC4RB_AWS_COMMON_OPTIONS# --include-all-instances --hide-healthy $instance_id
+  $result = $output | select-string -pattern ^INSTANCE`ti- -caseSensitive
+  if ([bool]($result)) {
+    Write-Host $result
+    $split = $result.tostring().split("`t")
+    $state = $split[3]
+    if ($state -ne "pending" -and $state -ne "running") {
+      Write-Host "Instance is not in appropriate state`: $state. Runbook exits now."
+      exit 1
+    } else {
+      if ($state -eq "running") {
+        Write-Host "Instance is running but hasn't be reachable yet`, will re-check after $cycle seconds..."
+      } else {
+        Write-Host "Instance is still in pending state`, will re-check after $cycle seconds..."
+      }
+      Start-Sleep -s $cycle
+    }
+  }
+  $times++
+}
+
+Write-Host "`nInstance $instance_id is running & reachable`n"
+
+:IF &UC4RB_AWS_NAME# <> ""
+!  SET &UC4RB_AWS_NAME# = STR_SUB(&UC4RB_AWS_NAME#, '"', '\"')
+   $output = java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" arb -cmd execute $env:EC2_HOME\bin\ec2-create-tags.cmd &UC4RB_AWS_COMMON_OPTIONS# $instance_id --tag \`"Name=&UC4RB_AWS_NAME#\`"
+   $result = $output | select-string -pattern ^TAG -caseSensitive
+   if (![bool]($result)) {
+     Write-Host "Failed to set tag name for instance"
+     $error_message = [string]::join("`n", $output)
+     Write-Host $error_message
+     exit 1
+   }
+   Write-Host $result
+   Write-Host "Assigned name `'&UC4RB_AWS_NAME#`' for newly created instance`n"
+:ENDIF
+
+! Stop option
+:IF &UC4RB_AWS_STOP# = "YES"
+!   try to stop
+   Write-Host "Trying to stop instance $instance_id.."
+   $output = java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" arb -cmd execute $env:EC2_HOME\bin\ec2-stop-instances.cmd &UC4RB_AWS_COMMON_OPTIONS# $instance_id
+   $result = $output | select-string -pattern ^INSTANCE -caseSensitive
+   if (![bool]($result)) {
+     $times = 0
+     while (![bool]($result)) {
+       if ($times -eq 5) {
+         Write-Host "Failed to stop instances for 5 times"
+         $error_message = [string]::join("`n", $output)
+         Write-Host $error_message
+         exit 1
+       }
+
+       Write-Host Failed to stop instance`, will retry after 10 seconds..
+       Start-Sleep -s 10
+       $output = java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" arb -cmd execute $env:EC2_HOME\bin\ec2-stop-instances.cmd &UC4RB_AWS_COMMON_OPTIONS# $instance_id
+       $result = $output | select-string -pattern ^INSTANCE -caseSensitive
+       $times++
+     }
+   }
+   Write-Host "Successfully stop instance`n"
+: ENDIF
+
+! The case we have a normal EC2 instance and we want to allocate and associate Elastic IP address for newly created instance
+:IF &UC4RB_AWS_GET_PUBLIC_IP# = "YES"
+:  IF &UC4RB_AWS_SUBNET# = ""
+!    Allocate new IP address with VPC option is NO
+     Write-Host Allocating new Elastic IP address..
+     $output = java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" arb -cmd execute $env:EC2_HOME\bin\ec2-allocate-address.cmd &UC4RB_AWS_COMMON_OPTIONS#
+
+     $result = $output | select-string -pattern ^ADDRESS -caseSensitive
+
+     if (![bool]($result)) {
+       Write-Host Failed to allocate new address
+       $error_message = [string]::join("`n", $output)
+       Write-Host $error_message
+       exit 1
+     }
+
+     $split = ($result.tostring() -replace '\s+', " ").Trim().split(" ")
+     $ip_address = $split[1]
+     $alloc_id = $split[3]
+
+     Write-Host $result
+     Write-Host "Successfully allocate address $ip_address`n"
+
+!    Associate IP address
+     Write-Host Associating IP address with instance..
+     $output = java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" arb -cmd execute $env:EC2_HOME\bin\ec2-associate-address.cmd &UC4RB_AWS_COMMON_OPTIONS# -i $instance_id $ip_address
+     $result = $output | select-string -pattern ^ADDRESS -caseSensitive
+
+     if (![bool]($result)) {
+       $error_message = [string]::join("`n", $output)
+       Write-Host $error_message
+       Write-Host "Failed to associate address"
+       exit 1
+     }
+
+     Write-Host $result
+     Write-Host "Successfully associate address`n"
+:  ENDIF
+:ENDIF
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_POWERSHELL_CMD@WINDOWS]]></MSCRI>
+</SCRIPT>
+<OUTPUTSCAN state="1">
+<Inherit>N</Inherit>
+<filterobjects/>
+<HostFsc/>
+<LoginFsc/>
+</OUTPUTSCAN>
+<POST_SCRIPT mode="1" replacementmode="1" state="1">
+<OSCRI><![CDATA[! Retrieve the output_line contain info about instance state
+:SET &output_entry# = PREP_PROCESS_REPORT(, , "REP", "INSTANCE*")
+:PROCESS &output_entry#
+:  SET &output_line# = GET_PROCESS_LINE(&output_entry#, 1)
+
+!  Extract the delimiter character from this output_line, usually the tab character
+:  SET &tab# = STR_CUT(&output_line#, 9, 1)
+
+!  Cut the INSTANCE from the string output_line
+:  SET &output_line# = SUBSTR(&output_line#, 10)
+!  Replace all tab characters with single space
+:  SET &output_line# = STR_SUB(&output_line#, &tab#, " ")
+:  DEFINE &results#, string, 40
+:  FILL &results#[] = STR_SPLIT(&output_line#, " ")
+:  SET &UC4RB_OUT_INSTANCE_ID# = &results#[1]
+:  PRINT Out Instance ID = &UC4RB_OUT_INSTANCE_ID#
+:  PUBLISH &UC4RB_OUT_INSTANCE_ID#, , "WORKFLOW"
+:  TERM_PROCESS
+:ENDPROCESS
+:CLOSE_PROCESS &output_entry#
+
+:SET &output_entry# = PREP_PROCESS_REPORT(, , "REP", "ADDRESS*")
+:PROCESS &output_entry#
+:  SET &output_line# = GET_PROCESS_LINE(&output_entry#, 1)
+
+!  Extract the delimiter character from this line, usually the tab character
+:  SET &tab# = STR_CUT(&output_line#, 8, 1)
+:  SET &output_line# = SUBSTR(&output_line#, 9)
+!  Replace the tab character with single space to easier to split
+:  SET &output_line# = STR_SUB(&output_line#, &tab#, " ")
+
+:  FILL &results#[] = STR_SPLIT(&output_line#, " ")
+:  SET &len# = LENGTH(&results#[])
+
+:  SET &UC4RB_OUT_IP_ADDRESS#  = &results#[1]
+:  SET &UC4RB_OUT_ALLOCATION_ID# = &results#[4]
+
+:  PRINT 'Allocated IP Address = &UC4RB_OUT_IP_ADDRESS#'
+:  PUBLISH &UC4RB_OUT_IP_ADDRESS#, , "WORKFLOW"
+
+:  IF &UC4RB_OUT_ALLOCATION_ID# <> ""
+:    PRINT Allocation ID = &UC4RB_OUT_ALLOCATION_ID#
+:    PUBLISH &UC4RB_OUT_ALLOCATION_ID#, , "WORKFLOW"
+:  ENDIF
+:  TERM_PROCESS
+:ENDPROCESS
+:CLOSE_PROCESS &output_entry#
+
+:SET &output_entry# = PREP_PROCESS_REPORT(, , "REP", "NETWORKINTERFACE*")
+:PROCESS &output_entry#
+:  SET &output_line# = GET_PROCESS_LINE(&output_entry#, 1)
+
+!  Extract the delimiter character from this output_line, usually the tab character
+:  SET &tab# = STR_CUT(&output_line#, 17, 1)
+
+!  Cut the INSTANCE from the string output_line
+:  SET &output_line# = SUBSTR(&output_line#, 18)
+!  Replace all tab characters with single space
+:  SET &output_line# = STR_SUB(&output_line#, &tab#, " ")
+:  FILL &results#[] = STR_SPLIT(&output_line#, " ")
+:  SET &UC4RB_OUT_NIC_ID# = &results#[1]
+:  PRINT Out Network Interface ID = &UC4RB_OUT_NIC_ID#
+:  PUBLISH &UC4RB_OUT_NIC_ID#, ,'TOP'
+:  TERM_PROCESS
+:ENDPROCESS
+:CLOSE_PROCESS &output_entry#
+
+:SET &output_entry# = PREP_PROCESS_REPORT(, , "REP", "PRIVATEIPADDRESS*")
+:PROCESS &output_entry#
+:  SET &output_line# = GET_PROCESS_LINE(&output_entry#, 1)
+
+!  Cut the PRIVATEIPADDRESS from the string output_line
+:  SET &output_line# = SUBSTR(&output_line#, 18)
+!  Replace all space characters with single comma
+:  SET &output_line# = STR_SUB(&output_line#, " ", ",")
+:  SET &UC4RB_OUT_INTERNAL_IP_LIST# = &output_line#
+:  PRINT Out PRIVATEIPADDRESS list = &UC4RB_OUT_INTERNAL_IP_LIST#
+:  PUBLISH &UC4RB_OUT_INTERNAL_IP_LIST#, ,'TOP'
+:  TERM_PROCESS
+:ENDPROCESS
+:CLOSE_PROCESS &output_entry#
+]]></OSCRI>
+</POST_SCRIPT>
+<DOCU_Docu state="1" type="text">
+<DOC><![CDATA[Create and start new EC2 instances. Sets the tag "Name" if a name is specified, and optionally stops the new instances.
+
+=Output=
+
+UC4RB_OUT_ALLOCATION_ID#
+ID of the allocated elastic IP. Condition: Allocate Public IP is set to YES, else value is empty
+
+UC4RB_OUT_NIC_ID#
+ID of the created Network interface. Condition: Allocate Public IP is set to YES, else value is empty
+
+UC4RB_OUT_INSTANCE_ID#
+ID of the new instance
+
+UC4RB_OUT_PUBLIC_IP#
+Public IP address. Condition: Allocate Public IP is set to YES, else value is empty
+]]></DOC>
+</DOCU_Docu>
+</JOBS_WINDOWS>
+</uc-export>
